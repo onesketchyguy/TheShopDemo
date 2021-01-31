@@ -33,6 +33,14 @@ public class @InputControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Quit"",
+                    ""type"": ""Button"",
+                    ""id"": ""e52aefcf-940b-4a90-8b2a-8fc5d644ae12"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -156,6 +164,17 @@ public class @InputControls : IInputActionCollection, IDisposable
                     ""action"": ""Accept"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5c72c2bc-6b13-4b11-adb9-da8f22955a23"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Quit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -183,6 +202,7 @@ public class @InputControls : IInputActionCollection, IDisposable
         m_WorldActions = asset.FindActionMap("WorldActions", throwIfNotFound: true);
         m_WorldActions_Movement = m_WorldActions.FindAction("Movement", throwIfNotFound: true);
         m_WorldActions_Accept = m_WorldActions.FindAction("Accept", throwIfNotFound: true);
+        m_WorldActions_Quit = m_WorldActions.FindAction("Quit", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -234,12 +254,14 @@ public class @InputControls : IInputActionCollection, IDisposable
     private IWorldActionsActions m_WorldActionsActionsCallbackInterface;
     private readonly InputAction m_WorldActions_Movement;
     private readonly InputAction m_WorldActions_Accept;
+    private readonly InputAction m_WorldActions_Quit;
     public struct WorldActionsActions
     {
         private @InputControls m_Wrapper;
         public WorldActionsActions(@InputControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_WorldActions_Movement;
         public InputAction @Accept => m_Wrapper.m_WorldActions_Accept;
+        public InputAction @Quit => m_Wrapper.m_WorldActions_Quit;
         public InputActionMap Get() { return m_Wrapper.m_WorldActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -255,6 +277,9 @@ public class @InputControls : IInputActionCollection, IDisposable
                 @Accept.started -= m_Wrapper.m_WorldActionsActionsCallbackInterface.OnAccept;
                 @Accept.performed -= m_Wrapper.m_WorldActionsActionsCallbackInterface.OnAccept;
                 @Accept.canceled -= m_Wrapper.m_WorldActionsActionsCallbackInterface.OnAccept;
+                @Quit.started -= m_Wrapper.m_WorldActionsActionsCallbackInterface.OnQuit;
+                @Quit.performed -= m_Wrapper.m_WorldActionsActionsCallbackInterface.OnQuit;
+                @Quit.canceled -= m_Wrapper.m_WorldActionsActionsCallbackInterface.OnQuit;
             }
             m_Wrapper.m_WorldActionsActionsCallbackInterface = instance;
             if (instance != null)
@@ -265,6 +290,9 @@ public class @InputControls : IInputActionCollection, IDisposable
                 @Accept.started += instance.OnAccept;
                 @Accept.performed += instance.OnAccept;
                 @Accept.canceled += instance.OnAccept;
+                @Quit.started += instance.OnQuit;
+                @Quit.performed += instance.OnQuit;
+                @Quit.canceled += instance.OnQuit;
             }
         }
     }
@@ -282,5 +310,6 @@ public class @InputControls : IInputActionCollection, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnAccept(InputAction.CallbackContext context);
+        void OnQuit(InputAction.CallbackContext context);
     }
 }

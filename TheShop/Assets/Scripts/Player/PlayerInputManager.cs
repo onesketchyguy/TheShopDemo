@@ -11,6 +11,9 @@ namespace Characters.Input
 
         private InputControls inputControls;
 
+        [SerializeField]
+        private UnityEngine.Events.UnityEvent onQuitPressed;
+
         /// <summary>
         /// Start is called before the first frame update
         /// </summary>
@@ -31,6 +34,9 @@ namespace Characters.Input
 
             // Setup the accept button control
             inputControls.WorldActions.Accept.performed += Accept_performed;
+
+            // Setup quit button control
+            inputControls.WorldActions.Quit.performed += _ => onQuitPressed.Invoke();
 
             // Enable the input system
             SetPlayerControlEnabled(true);

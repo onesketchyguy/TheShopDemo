@@ -14,10 +14,20 @@ namespace Characters.Player
             currentMoney = startingMoney;
         }
 
-        public void DoTransaction(double cost)
+        /// <summary>
+        /// Returns wether or not there is enough money for a transaction.
+        /// </summary>
+        /// <param name="cost"></param>
+        /// <returns></returns>
+        public bool DoTransaction(double cost)
         {
             if (currentMoney >= cost)
+            {
                 currentMoney -= cost;
+                return true;
+            }
+
+            return false;
         }
     }
 }

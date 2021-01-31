@@ -112,9 +112,14 @@ namespace Prototypes
             else
             {
                 // Purchase outfit
-                ownedOutfits.Add(outfits[displayIndex]);
-
-                moneyManager.DoTransaction(outfits[displayIndex].cost);
+                if (moneyManager.DoTransaction(outfits[displayIndex].cost))
+                {
+                    ownedOutfits.Add(outfits[displayIndex]);
+                }
+                else
+                {
+                    // FIXME: tell the user they can't afford it
+                }
             }
 
             Display();
