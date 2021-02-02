@@ -61,6 +61,7 @@ namespace Characters.Dialogue
             }
 
             // Display the text
+            StopAllCoroutines();
             StartCoroutine(ShowText(chunk.text));
         }
 
